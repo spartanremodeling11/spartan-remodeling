@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding for Unicode support -->
+    <meta charset="UTF-8">
+    
+    <!-- Viewport configuration for responsive web design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Search Engine Optimization (SEO) Metadata -->
+    <title>Spartan Exterior Remodeling</title>
+    <meta name="description" content="Replacement Windows and Doors in DFW">
+    <meta name="author" content="Seth Neel">
+    
+    <!-- Optional: Link to an external stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header>
+    <div class="header-container">
+        <div class="brand">
+            <img src="32logo.jpg" alt="Spartan Exterior Remodeling Logo" class="header-logo">
+            <h1 id="headerTitle">Spartan Exterior Remodeling</h1>
+        </div>
+
+        <nav class="main-nav">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="windows.html">Windows</a></li>
+				<li><a href="doors.html">Doors</a></li>
+				<li><a href="index.html#quoteForm" class="nav-cta">Get Quote</a></li>
+			</ul>
+		</nav>
+    </div>
+</header>
+
+    <main>
+		<!-- Left Column: Windows -->
+        <section id="leftWindows">
+            <h2>NT Presidential Windows</h2>
+            <p>Top-tier energy efficiency and custom vinyl replacement windows designed for Texas homes.</p>
+            <button class="btn">Learn More</button>
+        </section>
+        
+        <!-- Right Column: Doors -->
+        <section id="rightDoors">
+            <h2>ProVia Doors</h2>
+            <p>Premium fiberglass and steel entry doors built for maximum security, durability, and beauty.</p>
+            <button class="btn">Learn More</button>
+        </section>
+		
+		<!-- Quote Request Form Section -->
+		<section id="quoteForm">
+			<h2>Get a Free Estimate</h2>
+			<p>Fill out the form below and Seth Neel will reach out to discuss your project.</p>
+
+			<form action="https://api.web3forms.com/submit" method="POST">
+				<!-- Web3Forms Access Key -->
+				<input type="hidden" name="access_key" value="b668497b-2ba2-4c96-b20c-805a327c35fb">
+
+				<div class="form-group">
+					<label for="fullName">Full Name</label>
+					<input type="text" id="fullName" name="name" placeholder="John Doe" required>
+				</div>
+
+				<div class="form-group">
+					<label for="phone">Phone Number</label>
+					<input type="tel" id="phone" name="phone" placeholder="(817) 555-0199" required>
+				</div>
+
+				<div class="form-group">
+					<label for="email">Email Address</label>
+					<input type="email" id="email" name="email" placeholder="john@example.com" required>
+				</div>
+
+				<div class="form-group">
+					<label for="serviceType">Project Interest</label>
+					<select id="serviceType" name="serviceType">
+						<option value="NT Presidential Windows">NT Presidential Windows</option>
+						<option value="ProVia Doors">ProVia Doors</option>
+						<option value="Both Windows & Doors">Both Windows & Doors</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="message">Project Details / Message</label>
+					<textarea id="message" name="message" rows="4" placeholder="Tell us about how many windows or doors you are looking to replace..." required></textarea>
+				</div>
+
+				<button type="submit" class="btn btn-submit">Submit Request</button>
+			</form>
+		</section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Seth Neel</p>
+    </footer>
+
+    <!-- Optional: Link to an external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
