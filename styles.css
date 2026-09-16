@@ -95,7 +95,7 @@ header {
 }
 
 /* ===================================================
-   MAIN LAYOUT (Side-by-Side Flexbox)
+   MAIN LAYOUT & GENERAL BUTTONS
    =================================================== */
 main {
     display: flex;
@@ -106,23 +106,6 @@ main {
     padding: 0 20px;
 }
 
-/* Card Styling for Windows & Doors */
-#leftWindows, #rightDoors {
-    flex: 1 1 450px;           /* Side-by-side on desktop, wraps cleanly if screen shrinks */
-    background-color: #ffffff;
-    padding: 35px;
-    border-radius: 8px;
-    border-top: 5px solid var(--spartan-blue);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-#leftWindows h2, #rightDoors h2 {
-    color: var(--spartan-blue);
-    margin-bottom: 15px;
-    font-size: 1.6rem;
-}
-
-/* Action Buttons */
 .btn {
     display: inline-block;
     margin-top: 20px;
@@ -140,8 +123,9 @@ main {
 .btn:hover {
     background-color: var(--spartan-gold-hover);
 }
+
 /* ===================================================
-   HERO SECTION STYLES
+   HERO SECTION
    =================================================== */
 #hero {
     flex: 1 1 100%;
@@ -174,7 +158,6 @@ main {
     line-height: 1.5;
 }
 
-/* Trust Badges */
 .hero-badges {
     display: flex;
     justify-content: center;
@@ -193,7 +176,6 @@ main {
     color: var(--spartan-gold);
 }
 
-/* Hero Button Customization */
 .hero-buttons .btn-primary {
     background-color: var(--spartan-gold);
     color: var(--spartan-dark);
@@ -207,6 +189,7 @@ main {
     background-color: var(--spartan-gold-hover);
     transform: translateY(-1px);
 }
+
 /* ===================================================
    SPARTAN DIRECT DIFFERENCE SECTION
    =================================================== */
@@ -236,7 +219,6 @@ main {
     font-size: 1.05rem;
 }
 
-/* Side-by-Side Comparison Container */
 .comparison-container {
     display: flex;
     gap: 20px;
@@ -267,7 +249,6 @@ main {
     line-height: 1.4;
 }
 
-/* Traditional Card Styling */
 .traditional-card {
     background-color: #fff5f5;
     border: 1px solid #fecaca;
@@ -281,7 +262,6 @@ main {
     color: #7f1d1d;
 }
 
-/* Spartan Card Styling */
 .spartan-card {
     background-color: #f0f7ff;
     border: 2px solid var(--spartan-blue);
@@ -296,7 +276,6 @@ main {
     font-weight: 500;
 }
 
-/* Feature Cards Grid */
 .features-grid {
     display: flex;
     gap: 20px;
@@ -324,7 +303,6 @@ main {
     line-height: 1.5;
 }
 
-/* Bottom CTA Button */
 .direct-cta {
     text-align: center;
 }
@@ -345,217 +323,9 @@ main {
     background-color: var(--spartan-gold-hover);
 }
 
-/* Mobile Responsiveness for Direct Section */
-@media (max-width: 768px) {
-    #whyNoSalesmen {
-        padding: 30px 20px;
-    }
-
-    .direct-header h2 {
-        font-size: 1.7rem;
-    }
-
-    .comparison-container {
-        flex-direction: column;
-    }
-}
-/* Mobile Responsiveness for Hero */
-@media (max-width: 768px) {
-    #hero {
-        padding: 35px 20px;
-    }
-
-    .hero-content h2 {
-        font-size: 1.75rem;
-    }
-
-    .hero-content p {
-        font-size: 1rem;
-    }
-
-    .hero-badges {
-        flex-direction: column;
-        gap: 8px;
-        align-items: center;
-    }
-}
 /* ===================================================
-   QUOTE FORM SECTION
+   CALCULATOR & FORM SECTION
    =================================================== */
-#quoteForm {
-    flex: 1 1 100%;
-    background-color: #ffffff;
-    padding: 35px;
-    border-radius: 8px;
-    border-top: 5px solid var(--spartan-gold);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-#quoteForm h2 {
-    color: var(--spartan-blue);
-    margin-bottom: 5px;
-    font-size: 1.8rem;
-}
-
-#quoteForm p {
-    margin-bottom: 25px;
-    color: #555555;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-    color: var(--spartan-dark);
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-family: inherit;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--spartan-blue);
-    box-shadow: 0 0 5px rgba(0, 61, 167, 0.3);
-}
-
-.btn-submit {
-    width: 100%;
-    background-color: var(--spartan-blue);
-    color: #ffffff;
-    font-size: 1.1rem;
-}
-
-.btn-submit:hover {
-    background-color: #002c78;
-}
-
-
-/* Styling for standalone page sections (Windows & Doors detail pages) */
-.page-detail {
-    flex: 1 1 100%;
-    background-color: #ffffff;
-    padding: 35px;
-    border-radius: 8px;
-    border-top: 5px solid var(--spartan-blue);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.page-detail h2 {
-    color: var(--spartan-blue);
-    margin-bottom: 15px;
-    font-size: 2rem;
-}
-
-/* Product Feature List Styling */
-.product-features {
-    margin: 25px 0;
-}
-
-.product-features h3 {
-    color: var(--spartan-blue);
-    margin-bottom: 12px;
-    font-size: 1.3rem;
-}
-
-.product-features ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.product-features li {
-    position: relative;
-    padding-left: 25px;
-    margin-bottom: 12px;
-    color: var(--spartan-dark);
-}
-
-/* Bullet accent point using Spartan Gold */
-.product-features li::before {
-    content: "■";
-    color: var(--spartan-gold);
-    position: absolute;
-    left: 0;
-    font-size: 0.9rem;
-}
-
-/* Call-to-Action box inside detail sections */
-.cta-box {
-    background-color: var(--spartan-light);
-    border-left: 4px solid var(--spartan-gold);
-    padding: 20px;
-    margin-top: 30px;
-    border-radius: 4px;
-}
-
-.cta-box h3 {
-    color: var(--spartan-blue);
-    margin-bottom: 5px;
-}
-
-.cta-box p {
-    margin-bottom: 15px;
-    color: #555555;
-}
-
-/* ===================================================
-   FOOTER
-   =================================================== */
-footer {
-    background-color: var(--spartan-dark);
-    color: #ffffff;
-    text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-}
-
-/* ===================================================
-   CONSOLIDATED MOBILE RESPONSIVENESS
-   =================================================== */
-@media (max-width: 768px) {
-    main {
-        flex-direction: column;
-    }
-
-    .header-container {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-
-    .brand {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .header-logo {
-        height: 50px;
-    }
-
-    #headerTitle {
-        font-size: 1.5rem;
-    }
-
-    .main-nav ul {
-        gap: 12px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-}
-/* Estimator Section Card */
 .calculator-section {
     background-color: #ffffff;
     padding: 35px;
@@ -596,7 +366,6 @@ footer {
     font-size: 1rem;
 }
 
-/* Checkbox Toggle Styling */
 .checkbox-group label {
     display: flex;
     align-items: center;
@@ -611,7 +380,6 @@ footer {
     accent-color: var(--spartan-blue);
 }
 
-/* Installer Guarantee Callout */
 .climber-note {
     background-color: #f0f7ff;
     border-left: 4px solid var(--spartan-blue);
@@ -622,7 +390,6 @@ footer {
     border-radius: 0 4px 4px 0;
 }
 
-/* Price Box */
 .estimate-display {
     text-align: center;
     background-color: var(--spartan-light);
@@ -642,4 +409,134 @@ footer {
 .distance-note {
     font-size: 0.85rem;
     color: #555;
+}
+
+/* Web3Forms Field Layout */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--spartan-blue);
+    box-shadow: 0 0 5px rgba(0, 61, 167, 0.3);
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: var(--spartan-blue);
+    color: #ffffff;
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #002c78;
+}
+
+/* ===================================================
+   PAGE DETAIL CARDS
+   =================================================== */
+.page-detail {
+    flex: 1 1 100%;
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 8px;
+    border-top: 5px solid var(--spartan-blue);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.page-detail h2 {
+    color: var(--spartan-blue);
+    margin-bottom: 15px;
+    font-size: 2rem;
+}
+
+/* ===================================================
+   FOOTER
+   =================================================== */
+footer {
+    background-color: var(--spartan-dark);
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+/* ===================================================
+   CONSOLIDATED MOBILE RESPONSIVENESS (Screens <= 768px)
+   =================================================== */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .brand {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .header-logo {
+        height: 50px;
+    }
+
+    #headerTitle {
+        font-size: 1.5rem;
+    }
+
+    .main-nav ul {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #hero {
+        padding: 35px 20px;
+    }
+
+    .hero-content h2 {
+        font-size: 1.75rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .hero-badges {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #whyNoSalesmen {
+        padding: 30px 20px;
+    }
+
+    .direct-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .comparison-container {
+        flex-direction: column;
+    }
 }
