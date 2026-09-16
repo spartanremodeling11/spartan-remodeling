@@ -140,7 +140,245 @@ main {
 .btn:hover {
     background-color: var(--spartan-gold-hover);
 }
+/* ===================================================
+   HERO SECTION STYLES
+   =================================================== */
+#hero {
+    flex: 1 1 100%;
+    background: linear-gradient(135deg, var(--spartan-blue) 0%, #002566 100%);
+    color: #ffffff;
+    padding: 50px 30px;
+    border-radius: 8px;
+    border-bottom: 5px solid var(--spartan-gold);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    text-align: center;
+}
 
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h2 {
+    color: #ffffff;
+    font-size: 2.4rem;
+    line-height: 1.2;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.hero-content p {
+    font-size: 1.15rem;
+    color: #e0e8f5;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Trust Badges */
+.hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.hero-badges span {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--spartan-gold);
+}
+
+/* Hero Button Customization */
+.hero-buttons .btn-primary {
+    background-color: var(--spartan-gold);
+    color: var(--spartan-dark);
+    font-size: 1.1rem;
+    padding: 14px 32px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero-buttons .btn-primary:hover {
+    background-color: var(--spartan-gold-hover);
+    transform: translateY(-1px);
+}
+/* ===================================================
+   SPARTAN DIRECT DIFFERENCE SECTION
+   =================================================== */
+#whyNoSalesmen {
+    flex: 1 1 100%;
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 8px;
+    border-top: 5px solid var(--spartan-blue);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.direct-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
+
+.direct-header h2 {
+    color: var(--spartan-blue);
+    font-size: 2.1rem;
+    margin-bottom: 12px;
+}
+
+.direct-header p {
+    color: #555555;
+    font-size: 1.05rem;
+}
+
+/* Side-by-Side Comparison Container */
+.comparison-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 35px;
+}
+
+.comp-card {
+    flex: 1 1 320px;
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.comp-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.comp-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.comp-card li {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Traditional Card Styling */
+.traditional-card {
+    background-color: #fff5f5;
+    border: 1px solid #fecaca;
+}
+
+.traditional-card h3 {
+    color: #991b1b;
+}
+
+.traditional-card li {
+    color: #7f1d1d;
+}
+
+/* Spartan Card Styling */
+.spartan-card {
+    background-color: #f0f7ff;
+    border: 2px solid var(--spartan-blue);
+}
+
+.spartan-card h3 {
+    color: var(--spartan-blue);
+}
+
+.spartan-card li {
+    color: #1e3a8a;
+    font-weight: 500;
+}
+
+/* Feature Cards Grid */
+.features-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.feature-card {
+    flex: 1 1 250px;
+    background-color: var(--spartan-light);
+    padding: 20px;
+    border-radius: 6px;
+    border-left: 4px solid var(--spartan-gold);
+}
+
+.feature-card h4 {
+    color: var(--spartan-blue);
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    color: #444444;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Bottom CTA Button */
+.direct-cta {
+    text-align: center;
+}
+
+.direct-cta .btn-primary {
+    background-color: var(--spartan-gold);
+    color: var(--spartan-dark);
+    font-size: 1.05rem;
+    padding: 12px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.direct-cta .btn-primary:hover {
+    background-color: var(--spartan-gold-hover);
+}
+
+/* Mobile Responsiveness for Direct Section */
+@media (max-width: 768px) {
+    #whyNoSalesmen {
+        padding: 30px 20px;
+    }
+
+    .direct-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .comparison-container {
+        flex-direction: column;
+    }
+}
+/* Mobile Responsiveness for Hero */
+@media (max-width: 768px) {
+    #hero {
+        padding: 35px 20px;
+    }
+
+    .hero-content h2 {
+        font-size: 1.75rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .hero-badges {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+    }
+}
 /* ===================================================
    QUOTE FORM SECTION
    =================================================== */
@@ -316,4 +554,92 @@ footer {
         flex-wrap: wrap;
         justify-content: center;
     }
+}
+/* Estimator Section Card */
+.calculator-section {
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    max-width: 650px;
+    margin: 30px auto;
+    border-top: 5px solid var(--spartan-blue);
+}
+
+.calc-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.calc-group {
+    margin-bottom: 20px;
+}
+
+.calc-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.calc-group input[type="range"] {
+    width: 100%;
+    accent-color: var(--spartan-blue);
+    cursor: pointer;
+}
+
+.calc-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Checkbox Toggle Styling */
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--spartan-blue);
+}
+
+/* Installer Guarantee Callout */
+.climber-note {
+    background-color: #f0f7ff;
+    border-left: 4px solid var(--spartan-blue);
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    color: #1a252c;
+    margin-top: 10px;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Price Box */
+.estimate-display {
+    text-align: center;
+    background-color: var(--spartan-light);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 25px 0;
+    border: 2px solid var(--spartan-blue);
+}
+
+.price-amount {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: var(--spartan-blue);
+    margin: 5px 0;
+}
+
+.distance-note {
+    font-size: 0.85rem;
+    color: #555;
 }
