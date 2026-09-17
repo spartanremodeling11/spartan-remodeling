@@ -430,6 +430,12 @@ main {
     border-color: var(--spartan-blue);
     box-shadow: 0 0 5px rgba(0, 61, 167, 0.3);
 }
+.form-privacy-note {
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 0.85rem;
+    text-align: center;
+}
 
 .btn-submit {
     width: 100%;
@@ -443,6 +449,7 @@ main {
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
+
 
 .btn-submit:hover {
     background-color: #002c78;
