@@ -24,6 +24,7 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="process.html">Our Process</a></li>
+                    <li><a href="work.html">Our Work</a></li>
                     <li><a href="#quoteCalculator" class="nav-cta">Instant Estimator</a></li>
                 </ul>
             </nav>
@@ -109,6 +110,78 @@
 			</div>
 		</section>
 
+        <!-- Proof of Work Image Carousel Section -->
+        <section class="work-preview-section">
+            <div class="work-preview-header">
+                <h2>Recent Installation Work</h2>
+                <p>Click any photo below to inspect details and see project highlights.</p>
+            </div>
+
+            <div class="work-slider-container">
+                <button class="slider-btn prev-btn" onclick="scrollSlider('left')">&#10094;</button>
+                
+                <div class="work-slider-track" id="workSliderTrack">
+                    <!-- Card 1 -->
+                    <div class="work-card" onclick="openModal('work1.png', 'Modern Energy-Efficient Vinyl Replacement', 'Complete replacement of 12 drafty aluminum windows with NT Presidential energy-efficient vinyl sliders. Finished with exterior capping and direct-to-sheetrock interior caulk lines.')">
+                        <img src="work1.png" alt="Window Installation Project 1">
+                        <div class="work-card-info">
+                            <h3>Double Hung</h3>
+                            <span>Fort Worth, TX</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="work-card" onclick="openModal('work2.png', 'Second-Story Full Frame Installation', 'Precision second-story window swap completed safely by our expert ladder team. Includes low-expansion spray foam insulation and weather-tight flashing.')">
+                        <img src="work2.png" alt="Window Installation Project 2">
+                        <div class="work-card-info">
+                            <h3>Single Hung Twin Unit</h3>
+                            <span>Arlington, TX</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="work-card" onclick="openModal('work3.png', 'Texas Heat-Reflective Glass Package', 'Upgraded single-hung windows featuring solar-ban low-E glass to drastically cut down radiant heat gain during peak summer months.')">
+                        <img src="work3.png" alt="Window Installation Project 3">
+                        <div class="work-card-info">
+                            <h3>Heat-Reflective Glass</h3>
+                            <span>Weatherford, TX</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="work-card" onclick="openModal('work4.png', 'Custom Grid Window Replacement', 'Clean colonial grid layout update providing a fresh aesthetic facelift to a classic DFW suburban home exterior.')">
+                        <img src="work4.png" alt="Window Installation Project 4">
+                        <div class="work-card-info">
+                            <h3>Windows Windows Windows</h3>
+                            <span>Aledo, TX</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="slider-btn next-btn" onclick="scrollSlider('right')">&#10095;</button>
+            </div>
+        </section>
+
+        <!-- Centered Full-Screen Pop-Up Modal Structure -->
+        <div id="workModal" class="work-modal-overlay" style="display: none;">
+            <div class="work-modal-content">
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <div class="modal-grid">
+                    <div class="modal-image-box">
+                        <img id="modalImg" src="" alt="Enlarged Project Photo">
+                    </div>
+                    <div class="modal-text-box">
+                        <h3 id="modalTitle">Project Title</h3>
+                        <p id="modalDescription">Detailed project description goes here...</p>
+                        <div class="modal-cta-buttons">
+                            <a href="#quoteCalculator" class="btn btn-primary" onclick="closeModal()">Get a Quote Like This</a>
+                            <a href="work.html" class="btn btn-secondary">Open Gallery</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Interactive Pricing Calculator -->
         <section id="quoteCalculator" class="calculator-section">
             <h2>Instant Price Estimator</h2>
@@ -177,7 +250,7 @@
 					<p class="form-privacy-note">
 						<small>🔒 <strong>Zero Spam Guarantee:</strong> Your info gets emailed straight to Seth Neel so he can contact you when he isn't on a job. We never sell your data or use automated messaging.</small>
 					</p>
-					<button type="submit" class="btn btn-submit">Lock In Your Fast Quote</button>
+					<button type="submit" class="btn btn-submit">Request a measured quote</button>
 				</form>
 
             </div>
