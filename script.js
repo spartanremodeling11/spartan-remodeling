@@ -1,3 +1,7 @@
+// ===================================================
+// SPARTAN WINDOWS - INSTANT ESTIMATOR & CAROUSEL SCRIPT
+// ===================================================
+
 // Base Constants
 const BASE_ZIP_CODE = 76058;  // Fort Worth Base
 const UPSTAIRS_FEE = 75;      // 100% directly to climber
@@ -16,7 +20,7 @@ const SMALL_JOB_TIERS = {
 
 // Master Update Function when Total Window Slider Moves
 function updateCalculator() {
-    // Step 2 Fix: Force integer parsing with parseInt(..., 10)
+    // Force integer parsing with parseInt(..., 10)
     const totalWindows = parseInt(document.getElementById('windowQuantity').value, 10) || 1;
     document.getElementById('windowQtyDisplay').innerText = totalWindows;
 
@@ -52,7 +56,7 @@ function toggleUpstairsSlider() {
 
 // Core Math & Price Renderer
 function calculateEstimate() {
-    // Step 2 Fix: Force integer parsing with parseInt(..., 10)
+    // Force integer parsing with parseInt(..., 10)
     const totalWindows = parseInt(document.getElementById('windowQuantity').value, 10) || 1;
     const isChecked = document.getElementById('hasSecondStory').checked;
     const upstairsWindows = isChecked ? (parseInt(document.getElementById('upstairsCount').value, 10) || 0) : 0;
@@ -112,3 +116,46 @@ function calculateEstimate() {
     document.getElementById('hiddenEstimatedPrice').value = formattedTotal;
     document.getElementById('hiddenTravelDetails').value = noteText;
 }
+
+// ===================================================
+// CAROUSEL SLIDER & POP-UP MODAL CONTROLS
+// ===================================================
+
+// Scroll functionality for the image carousel track
+function scrollSlider(direction) {
+    const track = document.getElementById('workSliderTrack');
+    const scrollAmount = 320; // Width of one card plus gap
+    if (direction === 'left') {
+        track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+        track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+}
+
+// Open centered modal with dynamic content
+function openModal(imageSrc, title, description) {
+    document.getElementById('modalImg').src = imageSrc;
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalDescription').innerText = description;
+    document.getElementById('workModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+// Close modal
+function closeModal() {
+    document.getElementById('workModal').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore background scrolling
+}
+
+// Close modal automatically if user clicks outside the modal box container
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('workModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
+// Run initial calculation on page load to ensure defaults match
+document.addEventListener('DOMContentLoaded', () => {
+    updateCalculator();
+});
