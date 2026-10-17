@@ -9,13 +9,13 @@ const EXTRA_MILE_RATE = 2.50; // Per mile over included radius
 
 // Tiered Baseline Pricing Scale (1 to 7 Windows)
 const SMALL_JOB_TIERS = {
-    1: 1400,
-    2: 2600,
-    3: 3750,
-    4: 4800,
-    5: 5750,
-    6: 6600,
-    7: 7350
+    1: 1500,
+    2: 2800,
+    3: 4050,
+    4: 5200,
+    5: 6250,
+    6: 7200,
+    7: 8050
 };
 
 // Master Update Function when Total Window Slider Moves
@@ -71,7 +71,7 @@ function calculateEstimate() {
     if (totalWindows <= 7) {
         basePrice = SMALL_JOB_TIERS[totalWindows];
     } else {
-        basePrice = totalWindows * 1000; // Standard $1,000/window average for 8+
+        basePrice = totalWindows * 1100; // Standard $1,100/window for 8+
     }
 
     // 2. Second Story Access Fee ($75/window to climber)
