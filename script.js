@@ -1,161 +1,211 @@
-// ===================================================
-// SPARTAN WINDOWS - INSTANT ESTIMATOR & CAROUSEL SCRIPT
-// ===================================================
+/* =====================================================
+   SPARTAN WINDOWS — SETTINGS
+   Everything you'd normally change lives right here.
+   ===================================================== */
+var SPARTAN = {
+  // Business number (calls and texts). Shown on every page.
+  // Leave it as '' and every "Call or Text Seth" button becomes "Email Seth" instead.
+  phone: '682-319-6675',
 
-// Base Constants
-const BASE_ZIP_CODE = 76058;  // Fort Worth Base
-const UPSTAIRS_FEE = 75;      // 100% directly to climber
-const EXTRA_MILE_RATE = 2.50; // Per mile over included radius
+  email: 'spartanwindows11@gmail.com',
 
-// Tiered Baseline Pricing Scale (1 to 7 Windows)
-const SMALL_JOB_TIERS = {
-    1: 1500,
-    2: 2800,
-    3: 4050,
-    4: 5200,
-    5: 6250,
-    6: 7200,
-    7: 8050
+  // Your Google review link (Business Profile > "Ask for reviews" > copy link).
+  // Leave '' to hide the Google review links.
+  googleReviewsUrl: '',
+
+  founding: {
+    on: true,               // set to false to turn the founding offer off everywhere
+    lastDay: '2027-01-31',  // the offer hides itself automatically after this day
+    spotsLeft: 10,          // update by hand as founding jobs sell
+    perWindow: 300          // discount per window
+  },
+
+  prices: {
+    // Total price for small jobs (1 to 7 windows)
+    tiers: { 1: 1500, 2: 2800, 3: 4050, 4: 5200, 5: 6250, 6: 7200, 7: 8050 },
+    perWindow8Plus: 1100,   // price per window for 8 or more
+    upstairsEach: 75,       // extra per second-story window
+    cashDiscount: 0.10,     // 10% off for cash/check instead of financing
+    maxWindows: 40
+  },
+
+  travel: {
+    // Free travel miles by job size (biggest job first)
+    freeMiles: [
+      { minWindows: 6, miles: 60 },
+      { minWindows: 3, miles: 35 },
+      { minWindows: 1, miles: 15 }
+    ],
+    perMile: 2.50           // per mile past the free miles
+  }
 };
 
-// Master Update Function when Total Window Slider Moves
-function updateCalculator() {
-    // Force integer parsing with parseInt(..., 10)
-    const totalWindows = parseInt(document.getElementById('windowQuantity').value, 10) || 1;
-    document.getElementById('windowQtyDisplay').innerText = totalWindows;
+/* =====================================================
+   Nothing below this line needs editing.
+   ===================================================== */
 
-    const hasSecondStory = document.getElementById('hasSecondStory').checked;
-    const upstairsInput = document.getElementById('upstairsCount');
+function spMoney(v) { return '$' + Math.round(v).toLocaleString('en-US'); }
 
-    // Dynamically update upper limit of second story slider to match total windows
-    if (hasSecondStory) {
-        upstairsInput.max = totalWindows;
-        if (parseInt(upstairsInput.value, 10) > totalWindows) {
-            upstairsInput.value = totalWindows;
-        }
-        document.getElementById('upstairsDisplay').innerText = upstairsInput.value;
-    }
-
-    calculateEstimate();
+function spFoundingActive() {
+  var f = SPARTAN.founding;
+  if (!f.on || f.spotsLeft <= 0) return false;
+  var end = new Date(f.lastDay + 'T23:59:59');
+  return new Date() <= end;
 }
 
-// Reveal/Hide Second Story Slider
-function toggleUpstairsSlider() {
-    const isChecked = document.getElementById('hasSecondStory').checked;
-    const upstairsContainer = document.getElementById('upstairsContainer');
+function spFreeMiles(n) {
+  var rules = SPARTAN.travel.freeMiles;
+  for (var i = 0; i < rules.length; i++) { if (n >= rules[i].minWindows) return rules[i].miles; }
+  return rules[rules.length - 1].miles;
+}
 
-    if (isChecked) {
-        upstairsContainer.style.display = 'block';
+// Price for a job. zip is optional.
+function spPrice(n, up, cash, zip) {
+  var p = SPARTAN.prices;
+  var base = n <= 7 ? p.tiers[n] : n * p.perWindow8Plus;
+  var upCost = up * p.upstairsEach;
+  var founding = spFoundingActive() ? n * SPARTAN.founding.perWindow : 0;
+
+  var travel = { cost: 0, note: 'Enter your ZIP code to check travel.', known: false, miles: null };
+  if (zip && /^\d{5}$/.test(zip)) {
+    var table = (typeof SPARTAN_ZIP_MILES !== 'undefined') ? SPARTAN_ZIP_MILES : {};
+    var miles = table[zip];
+    var free = spFreeMiles(n);
+    if (miles === undefined) {
+      travel.note = 'That ZIP is outside my usual area. I’ll confirm any travel charge with you.';
+    } else if (miles <= free) {
+      travel = { cost: 0, known: true, miles: miles, note: 'Travel included (about ' + miles + ' miles from Joshua).' };
     } else {
-        upstairsContainer.style.display = 'none';
-        document.getElementById('upstairsCount').value = 0;
+      var cost = Math.round((miles - free) * SPARTAN.travel.perMile);
+      travel = { cost: cost, known: true, miles: miles, note: 'About ' + miles + ' miles from Joshua. First ' + free + ' miles are free.' };
     }
+  }
 
-    updateCalculator();
+  var subtotal = base + upCost + travel.cost - founding;
+  var cashOff = cash ? Math.round(subtotal * p.cashDiscount) : 0;
+  return { base: base, upCost: upCost, founding: founding, travel: travel, cashOff: cashOff, total: subtotal - cashOff };
 }
 
-// Core Math & Price Renderer
-function calculateEstimate() {
-    // Force integer parsing with parseInt(..., 10)
-    const totalWindows = parseInt(document.getElementById('windowQuantity').value, 10) || 1;
-    const isChecked = document.getElementById('hasSecondStory').checked;
-    const upstairsWindows = isChecked ? (parseInt(document.getElementById('upstairsCount').value, 10) || 0) : 0;
-    const zipVal = document.getElementById('zipCode').value.trim();
-
-    if (isChecked) {
-        document.getElementById('upstairsDisplay').innerText = upstairsWindows;
-    }
-
-    // 1. Calculate Base Window Package Cost
-    let basePrice = 0;
-    if (totalWindows <= 7) {
-        basePrice = SMALL_JOB_TIERS[totalWindows];
-    } else {
-        basePrice = totalWindows * 1100; // Standard $1,100/window for 8+
-    }
-
-    // 2. Second Story Access Fee ($75/window to climber)
-    let climberPay = upstairsWindows * UPSTAIRS_FEE;
-
-    // 3. Dynamic Service Radius Calculation
-    let freeRadius = 15;
-    if (totalWindows >= 6) {
-        freeRadius = 60;
-    } else if (totalWindows >= 3) {
-        freeRadius = 35;
-    }
-
-    // 4. Distance Calculation via ZIP Proximity
-    let travelCost = 0;
-    let noteText = `Includes standard installation, trim, caulk, and haul-away (${freeRadius} mi free travel included).`;
-
-    if (zipVal.length === 5 && !isNaN(zipVal)) {
-        let zipDelta = Math.abs(parseInt(zipVal, 10) - BASE_ZIP_CODE);
-        let estimatedMiles = Math.min(Math.max(Math.round(zipDelta * 0.4), 5), 75);
-
-        if (estimatedMiles > freeRadius) {
-            let extraMiles = estimatedMiles - freeRadius;
-            travelCost = extraMiles * EXTRA_MILE_RATE;
-            noteText = `Rough estimate. Includes $${travelCost.toFixed(2)} travel rate (~${estimatedMiles} mi trip). Final price confirmed after supplier quote.`;
-        } else {
-            noteText = `Rough estimate. Job is within your ${freeRadius}-mile free service radius! Final price confirmed after supplier quote.`;
-        }
-    }
-
-    // 5. Grand Total Calculation
-    let grandTotal = basePrice + climberPay + travelCost;
-    let formattedTotal = `$${grandTotal.toLocaleString()}`;
-
-    // 6. Update Screen UI
-    document.getElementById('priceOutput').innerText = formattedTotal;
-    document.getElementById('distanceNote').innerText = noteText;
-
-    // 7. Sync values into hidden inputs for Web3Forms email sending
-    document.getElementById('hiddenTotalWindows').value = totalWindows;
-    document.getElementById('hiddenUpstairsWindows').value = upstairsWindows;
-    document.getElementById('hiddenEstimatedPrice').value = formattedTotal;
-    document.getElementById('hiddenTravelDetails').value = noteText;
+function spQuery(name) {
+  var m = new RegExp('[?&]' + name + '=(\\d+)').exec(window.location.search);
+  return m ? parseInt(m[1], 10) : null;
 }
 
-// ===================================================
-// CAROUSEL SLIDER & POP-UP MODAL CONTROLS
-// ===================================================
+function spSetText(el, text) { if (el) el.textContent = text; }
 
-// Scroll functionality for the image carousel track
-function scrollSlider(direction) {
-    const track = document.getElementById('workSliderTrack');
-    const scrollAmount = 320; // Width of one card plus gap
-    if (direction === 'left') {
-        track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    } else {
-        track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+document.addEventListener('DOMContentLoaded', function () {
+  var digits = SPARTAN.phone.replace(/\D/g, '');
+  var hasPhone = digits.length === 10;
+
+  // Contact buttons: call (or text, for buttons marked data-sms) if there's a number, otherwise email.
+  document.querySelectorAll('[data-contact-link]').forEach(function (a) {
+    a.href = hasPhone ? (a.hasAttribute('data-sms') ? 'sms:+1' : 'tel:+1') + digits : 'mailto:' + SPARTAN.email;
+    var label = a.querySelector('[data-contact-label]');
+    if (label) label.textContent = hasPhone ? (a.getAttribute('data-text-label') || 'Call or Text Seth') : (a.getAttribute('data-email-label') || 'Email Seth');
+  });
+  document.querySelectorAll('[data-phone-text]').forEach(function (el) {
+    if (hasPhone) { el.textContent = SPARTAN.phone; el.closest('[data-needs-phone]') && el.closest('[data-needs-phone]').removeAttribute('hidden'); }
+  });
+  document.querySelectorAll('[data-needs-phone]').forEach(function (el) { if (hasPhone) el.removeAttribute('hidden'); });
+  document.querySelectorAll('[data-phone-link]').forEach(function (a) { if (hasPhone) a.href = 'tel:+1' + digits; });
+
+  // Google review links
+  document.querySelectorAll('[data-reviews-link]').forEach(function (a) {
+    if (SPARTAN.googleReviewsUrl) { a.href = SPARTAN.googleReviewsUrl; a.removeAttribute('hidden'); }
+    else { var li = a.closest('li'); (li || a).setAttribute('hidden', ''); }
+  });
+
+  // Founding offer on/off
+  var foundingOn = spFoundingActive();
+  document.querySelectorAll('[data-founding]').forEach(function (el) { if (!foundingOn) el.setAttribute('hidden', ''); });
+  document.querySelectorAll('[data-spots]').forEach(function (el) { el.textContent = SPARTAN.founding.spotsLeft; });
+
+  // Phone menu
+  var menuBtn = document.querySelector('.menu-btn');
+  var nav = document.getElementById('site-nav');
+  if (menuBtn && nav) {
+    menuBtn.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  // Year in footer
+  document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+
+  // Homepage price preview
+  var mini = document.getElementById('miniEstimator');
+  if (mini) {
+    var mn = 8;
+    var mOut = mini.querySelector('[data-n]');
+    function drawMini() {
+      var r = spPrice(mn, 0, false, null);
+      spSetText(mOut, mn);
+      spSetText(mini.querySelector('[data-regular]'), spMoney(r.base));
+      spSetText(mini.querySelector('[data-founding-amt]'), '−' + spMoney(r.founding));
+      spSetText(mini.querySelector('[data-total]'), spMoney(r.total));
+      var regLine = mini.querySelector('[data-regular-row]');
+      if (regLine) regLine.classList.toggle('strike', r.founding > 0);
+      mini.querySelector('[data-minus]').disabled = mn <= 1;
+      mini.querySelector('[data-plus]').disabled = mn >= SPARTAN.prices.maxWindows;
+      var go = mini.querySelector('[data-go]');
+      if (go) go.href = 'estimate.html?n=' + mn;
     }
-}
+    mini.querySelector('[data-minus]').addEventListener('click', function () { if (mn > 1) { mn--; drawMini(); } });
+    mini.querySelector('[data-plus]').addEventListener('click', function () { if (mn < SPARTAN.prices.maxWindows) { mn++; drawMini(); } });
+    drawMini();
+  }
 
-// Open centered modal with dynamic content
-function openModal(imageSrc, title, description) {
-    document.getElementById('modalImg').src = imageSrc;
-    document.getElementById('modalTitle').innerText = title;
-    document.getElementById('modalDescription').innerText = description;
-    document.getElementById('workModal').style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-}
+  // Full estimator page
+  var est = document.getElementById('estimator');
+  if (est) {
+    var n = Math.min(Math.max(spQuery('n') || 5, 1), SPARTAN.prices.maxWindows);
+    var up = Math.min(spQuery('up') || 0, n);
+    var zipInput = document.getElementById('zip');
+    var nOut = document.getElementById('nOut');
+    var upOut = document.getElementById('upOut');
 
-// Close modal
-function closeModal() {
-    document.getElementById('workModal').style.display = 'none';
-    document.body.style.overflow = 'auto'; // Restore background scrolling
-}
+    function payIsCash() { var c = est.querySelector('input[name="payment_preference"]:checked'); return c && c.value === 'Cash or check'; }
 
-// Close modal automatically if user clicks outside the modal box container
-window.addEventListener('click', function(event) {
-    const modal = document.getElementById('workModal');
-    if (event.target === modal) {
-        closeModal();
+    function draw() {
+      var zip = zipInput.value.trim();
+      var r = spPrice(n, up, payIsCash(), zip);
+      spSetText(nOut, n);
+      spSetText(upOut, up);
+      spSetText(document.getElementById('lnBaseLabel'), n + (n === 1 ? ' window' : ' windows') + ', installed');
+      spSetText(document.getElementById('lnBase'), spMoney(r.base));
+      document.getElementById('rowUp').hidden = up === 0;
+      spSetText(document.getElementById('lnUpLabel'), up + ' upstairs × $' + SPARTAN.prices.upstairsEach);
+      spSetText(document.getElementById('lnUp'), spMoney(r.upCost));
+      document.getElementById('rowTravel').hidden = r.travel.cost === 0;
+      spSetText(document.getElementById('lnTravel'), spMoney(r.travel.cost));
+      document.getElementById('rowFounding').hidden = r.founding === 0;
+      spSetText(document.getElementById('lnFoundingLabel'), 'Founding discount ($' + SPARTAN.founding.perWindow + ' × ' + n + ')');
+      spSetText(document.getElementById('lnFounding'), '−' + spMoney(r.founding));
+      document.getElementById('rowCash').hidden = r.cashOff === 0;
+      spSetText(document.getElementById('lnCash'), '−' + spMoney(r.cashOff));
+      spSetText(document.getElementById('lnTotal'), spMoney(r.total));
+      spSetText(document.getElementById('travelNote'), r.travel.note);
+      document.getElementById('nMinus').disabled = n <= 1;
+      document.getElementById('nPlus').disabled = n >= SPARTAN.prices.maxWindows;
+      document.getElementById('upMinus').disabled = up <= 0;
+      document.getElementById('upPlus').disabled = up >= n;
+
+      // Copy everything into the form so it lands in Seth's email
+      document.getElementById('hWindows').value = n;
+      document.getElementById('hUpstairs').value = up;
+      document.getElementById('hZip').value = zip;
+      document.getElementById('hTravel').value = r.travel.note + (r.travel.cost ? ' Charge: ' + spMoney(r.travel.cost) : '');
+      document.getElementById('hFounding').value = r.founding ? spMoney(r.founding) + ' off' : 'Not applied';
+      document.getElementById('hEstimate').value = spMoney(r.total);
     }
-});
 
-// Run initial calculation on page load to ensure defaults match
-document.addEventListener('DOMContentLoaded', () => {
-    updateCalculator();
+    document.getElementById('nMinus').addEventListener('click', function () { if (n > 1) { n--; if (up > n) up = n; draw(); } });
+    document.getElementById('nPlus').addEventListener('click', function () { if (n < SPARTAN.prices.maxWindows) { n++; draw(); } });
+    document.getElementById('upMinus').addEventListener('click', function () { if (up > 0) { up--; draw(); } });
+    document.getElementById('upPlus').addEventListener('click', function () { if (up < n) { up++; draw(); } });
+    zipInput.addEventListener('input', draw);
+    est.querySelectorAll('input[name="payment_preference"]').forEach(function (r) { r.addEventListener('change', draw); });
+    draw();
+  }
 });
