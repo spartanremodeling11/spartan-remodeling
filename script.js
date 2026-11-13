@@ -22,8 +22,8 @@ var SPARTAN = {
 
   prices: {
     // Total price for small jobs (1 to 7 windows)
-    tiers: { 1: 1500, 2: 2800, 3: 4050, 4: 5200, 5: 6250, 6: 7200, 7: 8050 },
-    perWindow8Plus: 1100,   // price per window for 8 or more
+    tiers: { 1: 1500, 2: 2800, 3: 4050, 4: 5200, 5: 6500, 6: 7800, 7: 9100 },
+    perWindow8Plus: 1300,   // price per window for 8 or more
     upstairsEach: 75,       // extra per second-story window
     cashDiscount: 0.10,     // 10% off for cash/check instead of financing
     maxWindows: 40
