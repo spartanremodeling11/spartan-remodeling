@@ -209,3 +209,128 @@ document.addEventListener('DOMContentLoaded', function () {
     draw();
   }
 });
+
+/* =====================================================
+   Tap-to-enlarge for before/after photos (.pair)
+   Tap either photo to open both full screen. Swipe, tap
+   the photo, or use the Before/After buttons to compare.
+   ===================================================== */
+document.addEventListener('DOMContentLoaded', function () {
+  var pairs = document.querySelectorAll('.pair');
+  if (!pairs.length) return;
+
+  var xIcon = '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  var zoomIcon = '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+
+  var lb = document.createElement('div');
+  lb.className = 'lb';
+  lb.hidden = true;
+  lb.setAttribute('role', 'dialog');
+  lb.setAttribute('aria-modal', 'true');
+  lb.setAttribute('aria-label', 'Enlarged photos');
+  lb.innerHTML =
+    '<div class="lb-bar"><div class="lb-tabs" role="group" aria-label="Choose a photo"></div>' +
+    '<button type="button" class="lb-close" aria-label="Close">' + xIcon + '</button></div>' +
+    '<div class="lb-stage"><img alt="">' +
+    '<p class="lb-cap"></p>' +
+    '<p class="lb-hint">Swipe or tap the photo to compare</p></div>';
+  document.body.appendChild(lb);
+
+  var tabs = lb.querySelector('.lb-tabs');
+  var img = lb.querySelector('.lb-stage img');
+  var cap = lb.querySelector('.lb-cap');
+  var hint = lb.querySelector('.lb-hint');
+  var closeBtn = lb.querySelector('.lb-close');
+  var items = [], idx = 0, opener = null, pushed = false;
+
+  function niceLabel(s) { s = (s || '').trim(); return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : ''; }
+
+  function show(i) {
+    idx = (i + items.length) % items.length;
+    img.src = items[idx].src;
+    img.alt = items[idx].alt;
+    cap.textContent = items[idx].caption;
+    tabs.querySelectorAll('button').forEach(function (b, j) { b.setAttribute('aria-pressed', j === idx ? 'true' : 'false'); });
+  }
+
+  function open(pair, i, from) {
+    items = [].map.call(pair.querySelectorAll('figure'), function (f) {
+      var im = f.querySelector('img'), tag = f.querySelector('.tag'), fc = f.querySelector('figcaption');
+      return { src: im.currentSrc || im.src, alt: im.alt, label: tag ? niceLabel(tag.textContent) : '', caption: fc ? fc.textContent.trim() : '' };
+    });
+    tabs.innerHTML = '';
+    items.forEach(function (it, j) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = it.label || 'Photo ' + (j + 1);
+      b.addEventListener('click', function () { show(j); });
+      tabs.appendChild(b);
+    });
+    tabs.hidden = hint.hidden = items.length < 2;
+    opener = from;
+    show(i);
+    lb.hidden = false;
+    document.documentElement.classList.add('lb-open');
+    // Let the phone's Back button close the photos instead of leaving the page
+    if (!pushed) { try { history.pushState({ spartanPhotos: 1 }, ''); pushed = true; } catch (e) {} }
+    closeBtn.focus();
+  }
+
+  function hide() {
+    lb.hidden = true;
+    document.documentElement.classList.remove('lb-open');
+    if (opener) opener.focus();
+  }
+
+  function close() { if (pushed) { history.back(); } else { hide(); } }
+
+  window.addEventListener('popstate', function () { if (pushed) { pushed = false; hide(); } });
+  closeBtn.addEventListener('click', close);
+  img.addEventListener('click', function () { if (items.length > 1) show(idx + 1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('lb-stage')) close(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') { close(); }
+    else if (e.key === 'ArrowRight') { show(idx + 1); }
+    else if (e.key === 'ArrowLeft') { show(idx - 1); }
+    else if (e.key === 'Tab') {
+      var f = [].filter.call(lb.querySelectorAll('button'), function (b) { return b.offsetParent !== null; });
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  // Swipe left or right to switch photos (ignored while pinch-zoomed in)
+  var sx = null, sy = null;
+  lb.addEventListener('touchstart', function (e) {
+    if (e.touches.length === 1) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; } else { sx = null; }
+  }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (sx === null) return;
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    sx = null;
+    if (window.visualViewport && window.visualViewport.scale > 1.05) return;
+    if (items.length > 1 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) show(idx + (dx < 0 ? 1 : -1));
+  });
+
+  pairs.forEach(function (pair) {
+    pair.querySelectorAll('figure').forEach(function (f, i) {
+      var fc = f.querySelector('figcaption');
+      f.setAttribute('data-zoom', '');
+      f.setAttribute('role', 'button');
+      f.setAttribute('tabindex', '0');
+      f.setAttribute('aria-label', 'Enlarge photo' + (fc ? ': ' + fc.textContent.trim() : ''));
+      var icon = document.createElement('span');
+      icon.className = 'zoom-hint';
+      icon.innerHTML = zoomIcon;
+      f.appendChild(icon);
+      f.addEventListener('click', function () { open(pair, i, f); });
+      f.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(pair, i, f); }
+      });
+    });
+  });
+});
