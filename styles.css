@@ -334,3 +334,24 @@ details p { margin: 10px 0 0; color: var(--muted); }
 .pair img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .pair .tag { top: 12px; left: 12px; background: var(--gold); }
 .pair figcaption { position: absolute; left: 10px; right: 10px; bottom: 10px; background: rgba(14,33,72,.9); color: #FFFFFF; font-size: 15px; font-weight: 700; padding: 8px 12px; border-radius: 10px; line-height: 1.3; }
+
+/* ---------- Tap-to-enlarge before/after photos ---------- */
+.pair figure[data-zoom] { cursor: zoom-in; }
+.zoom-hint { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border-radius: 50%; background: rgba(14,33,72,.85); display: grid; place-items: center; pointer-events: none; }
+html.lb-open { overflow: hidden; }
+.lb { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; background: var(--navy-deep); color: var(--white); padding: calc(12px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom)); }
+.lb[hidden] { display: none; }
+.lb-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.lb-tabs { display: inline-flex; gap: 4px; background: var(--navy-line); border-radius: 999px; padding: 4px; }
+.lb-tabs[hidden] { display: none; }
+.lb-tabs button { font: 700 18px var(--body); color: var(--white); background: transparent; border: 0; border-radius: 999px; padding: 10px 22px; min-height: 44px; cursor: pointer; }
+.lb-tabs button[aria-pressed="true"] { background: var(--gold); color: var(--navy); }
+.lb-close { margin-left: auto; width: 48px; height: 48px; border-radius: 50%; border: 2px solid rgba(255,255,255,.6); background: transparent; color: var(--white); display: grid; place-items: center; cursor: pointer; }
+.lb-stage { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; touch-action: pan-y pinch-zoom; }
+.lb-stage img { flex: 0 1 auto; min-height: 0; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 10px; }
+.lb-cap, .lb-hint { flex-shrink: 0; }
+.lb-cap { text-align: center; font-size: 19px; font-weight: 700; margin: 14px 0 4px; }
+.lb-hint { text-align: center; font-size: 15px; color: var(--on-navy); margin: 0; }
+@media (max-width: 600px) {
+  .pair figcaption { left: 8px; right: 8px; bottom: 8px; font-size: 14px; padding: 6px 9px; }
+}
