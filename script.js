@@ -7,11 +7,12 @@ var SPARTAN = {
   // Leave it as '' and every "Call or Text Seth" button becomes "Email Seth" instead.
   phone: '682-319-6675',
 
-  email: 'spartanwindows11@gmail.com',
+  email: 'sethneel@dfwspartanwindows.com',
 
-  // Your Google review link (Business Profile > "Ask for reviews" > copy link).
-  // Leave '' to hide the Google review links.
-  googleReviewsUrl: '',
+  // Your Google Business Profile link (profile panel > Share > copy link).
+  // The "Google reviews" links on the site open this. Leave '' to hide them.
+  // To ask a customer for a review, text them: https://g.page/r/CTcaTlRAYtWOEAI/review
+  googleReviewsUrl: 'https://share.google/JTDkberm8uFBIQcvD',
 
   founding: {
     on: true,               // set to false to turn the founding offer off everywhere
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('[data-contact-link]').forEach(function (a) {
     a.href = hasPhone ? (a.hasAttribute('data-sms') ? 'sms:+1' : 'tel:+1') + digits : 'mailto:' + SPARTAN.email;
     var label = a.querySelector('[data-contact-label]');
-    if (label) label.textContent = hasPhone ? (a.getAttribute('data-text-label') || 'Call or Text Seth') : (a.getAttribute('data-email-label') || 'Email Seth');
+    if (label) label.textContent = hasPhone ? (a.getAttribute('data-text-label') || 'Call or Text Seth').replace('{phone}', SPARTAN.phone) : (a.getAttribute('data-email-label') || 'Email Seth');
   });
   document.querySelectorAll('[data-phone-text]').forEach(function (el) {
     if (hasPhone) { el.textContent = SPARTAN.phone; el.closest('[data-needs-phone]') && el.closest('[data-needs-phone]').removeAttribute('hidden'); }
