@@ -9,9 +9,10 @@ var SPARTAN = {
 
   email: 'sethneel@dfwspartanwindows.com',
 
-  // Your Google review link (Business Profile > "Ask for reviews" > copy link).
-  // Leave '' to hide the Google review links.
-  googleReviewsUrl: '',
+  // Your Google Business Profile link (profile panel > Share > copy link).
+  // The "Google reviews" links on the site open this. Leave '' to hide them.
+  // To ask a customer for a review, text them: https://g.page/r/CTcaTlRAYtWOEAI/review
+  googleReviewsUrl: 'https://share.google/JTDkberm8uFBIQcvD',
 
   founding: {
     on: true,               // set to false to turn the founding offer off everywhere
