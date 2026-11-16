@@ -82,17 +82,17 @@ p { margin: 0 0 14px; }
 
 /* ---------- Header ---------- */
 .site-header { background: var(--navy); position: relative; z-index: 20; }
-.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-top: 14px; padding-bottom: 14px; }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; padding-top: 14px; padding-bottom: 14px; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .brand img { height: 50px; width: auto; }
 .brand-text { display: flex; flex-direction: column; line-height: 1; }
 .brand-word { font-family: var(--mark); color: var(--white); font-size: 30px; letter-spacing: 1px; }
 .brand-sub { font-family: var(--head); color: var(--gold); font-size: 15px; font-weight: 700; letter-spacing: 4px; margin-top: 4px; }
-.nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 24px; }
-.nav a { color: var(--white); text-decoration: none; font-weight: 700; font-size: 17px; padding: 6px 0; border-bottom: 3px solid transparent; }
+.nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.nav a { color: var(--white); text-decoration: none; font-weight: 700; font-size: 16px; padding: 6px 0; border-bottom: 3px solid transparent; }
 .nav a:hover, .nav a[aria-current="page"] { color: var(--gold); border-bottom-color: var(--gold); }
 .header-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.header-actions .btn { min-height: 48px; padding: 0 18px; font-size: 17px; }
+.header-actions .btn { min-height: 48px; padding: 0 14px; font-size: 17px; }
 .menu-btn { display: none; min-height: 48px; padding: 0 16px; border-radius: 10px; border: 2px solid #3A5185; background: transparent; color: var(--white); font: 700 17px var(--body); cursor: pointer; align-items: center; gap: 8px; }
 
 /* ---------- Hero ---------- */
@@ -355,3 +355,7 @@ html.lb-open { overflow: hidden; }
 @media (max-width: 600px) {
   .pair figcaption { left: 8px; right: 8px; bottom: 8px; font-size: 14px; padding: 6px 9px; }
 }
+
+/* Text-consent checkbox on the estimate form */
+.consent { display: flex; gap: 12px; align-items: flex-start; margin: 0 0 16px; font-size: 16px; line-height: 1.45; cursor: pointer; }
+.consent input { width: 22px; height: 22px; margin: 2px 0 0; flex: 0 0 auto; accent-color: var(--navy); }
