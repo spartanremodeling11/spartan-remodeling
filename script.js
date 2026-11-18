@@ -17,7 +17,7 @@ var SPARTAN = {
   founding: {
     on: true,               // set to false to turn the founding offer off everywhere
     lastDay: '2027-01-31',  // the offer hides itself automatically after this day
-    spotsLeft: 10,          // update by hand as founding jobs sell
+    spotsLeft: 9,           // update by hand as founding jobs sell
     perWindow: 300          // discount per window
   },
 
