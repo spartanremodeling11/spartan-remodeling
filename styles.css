@@ -88,7 +88,7 @@ p { margin: 0 0 14px; }
 .brand-text { display: flex; flex-direction: column; line-height: 1; }
 .brand-word { font-family: var(--mark); color: var(--white); font-size: 30px; letter-spacing: 1px; }
 .brand-sub { font-family: var(--head); color: var(--gold); font-size: 15px; font-weight: 700; letter-spacing: 4px; margin-top: 4px; }
-.nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 12px; }
 .nav a { color: var(--white); text-decoration: none; font-weight: 700; font-size: 16px; padding: 6px 0; border-bottom: 3px solid transparent; }
 .nav a:hover, .nav a[aria-current="page"] { color: var(--gold); border-bottom-color: var(--gold); }
 .header-actions { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -378,3 +378,45 @@ html.lb-open { overflow: hidden; }
   .price-table.ratings th, .price-table.ratings td { padding: 10px 8px; }
   .price-table.ratings thead th { font-size: 14px; }
 }
+
+/* ---------- Phone number in plain view ---------- */
+.phone-strip { display: none; }
+.header-actions .header-phone { min-height: 56px; padding: 4px 12px; gap: 6px; }
+.header-phone svg { width: 20px; height: 20px; }
+.header-phone-lines { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+.header-phone-lines small { font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: .3px; }
+.header-phone-lines [data-contact-label] { font-size: 20px; }
+.hero-phone { font-size: 21px; color: var(--on-navy); }
+.hero-phone a { color: var(--gold); font-weight: 700; white-space: nowrap; }
+.hero .hero-phone { margin: -16px 0 32px; }
+.page-hero .hero-phone { font-size: 21px; margin-top: 16px; }
+.mobile-call [data-contact-label] { white-space: nowrap; }
+@media (max-width: 860px) {
+  .phone-strip {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 52px; padding: 8px 16px; background: var(--navy-deep); color: var(--white);
+    font-size: 19px; font-weight: 700; text-decoration: none; text-align: center; line-height: 1.25;
+  }
+  .phone-strip:hover { color: var(--white); }
+  .phone-strip svg { color: var(--gold); }
+  .phone-strip strong { color: var(--gold); font-size: 22px; white-space: nowrap; }
+}
+@media (max-width: 380px) {
+  .phone-strip { font-size: 17px; }
+  .phone-strip strong { font-size: 20px; }
+  .mobile-bar .btn { font-size: 17px; }
+  .mobile-bar .mobile-call svg { display: none; }
+}
+
+/* ---------- Call-back form (estimate page) ---------- */
+.callback-box { display: flex; flex-wrap: wrap; align-items: center; gap: 28px 48px; }
+.callback-intro { flex: 1 1 360px; min-width: 0; }
+.callback-intro p { font-size: 20px; }
+.callback-phone { font-weight: 700; color: var(--navy); }
+.callback-phone a { font: 800 40px/1.2 var(--head); white-space: nowrap; }
+.callback-form { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+.callback-form .field label { font-size: 20px; }
+.callback-form .field input { min-height: 60px; font-size: 21px; }
+.callback-form .choice-group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.callback-form .choice span { min-height: 56px; font-size: 19px; }
+.callback-form .form-note { margin: 0; }

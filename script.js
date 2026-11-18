@@ -131,6 +131,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Thank-you page: call-back requests get their own message
+  var thanksMsg = document.querySelector('[data-thanks-msg]');
+  if (thanksMsg && /[?&]type=callback\b/.test(window.location.search)) {
+    thanksMsg.textContent = thanksMsg.getAttribute('data-callback-text');
+  }
+
   // Year in footer
   document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
