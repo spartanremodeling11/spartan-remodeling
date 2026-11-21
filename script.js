@@ -341,3 +341,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+/* =====================================================
+   GOOGLE ADS — count taps on the phone number
+   Every "Call" or "Text" tap on a tel: or sms: link counts
+   as a "Click to call" conversion in Google Ads.
+   ===================================================== */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href^="tel:"], a[href^="sms:"]');
+  if (!a || typeof window.gtag !== 'function') return;
+  window.gtag('event', 'conversion', {
+    send_to: 'AW-18579681405/oIM1COSl-7wdEP3gvZtF',
+    value: 1.0,
+    currency: 'USD'
+  });
+});
